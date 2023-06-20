@@ -2,16 +2,14 @@ package com.shaunwah.pafday21workshop.model;
 
 import lombok.Data;
 
-import java.util.Optional;
-
 @Data
 public class Order {
-    private int id;
-    private int employeeId;
-    private int customerId;
+    private Integer id;
+    private Integer employeeId;
+    private Integer customerId;
     private String orderDate;
     private String shippedDate;
-    private Optional<Integer> shipperId;
+    private Integer shipperId;
     private String shipName;
     private String shipAddress;
     private String shipCity;
@@ -24,6 +22,6 @@ public class Order {
     private String paidDate;
     private String notes;
     private Double taxRate;
-    private Optional<Integer> taxStatusId;
-    private Optional<Integer> statusId;
+    private Integer taxStatusId;
+    private Integer statusId;
 }
