@@ -1,12 +1,12 @@
 package com.shaunwah.pafday21workshop.service;
 
+import com.shaunwah.pafday21workshop.exception.ResourceNotFoundException;
 import com.shaunwah.pafday21workshop.model.Customer;
 import com.shaunwah.pafday21workshop.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -17,7 +17,12 @@ public class CustomerService {
         return repository.getCustomers(offset, limit);
     }
 
-    public Optional<Customer> getCustomer(int id) {
-        return repository.getCustomer(id);
+    public Customer getCustomer(int id) {
+        Customer customer = repository.getCustomer(id);
+
+        if (customer != null) {
+            return customer;
+        }
+        throw new ResourceNotFoundException("Customer not found!");
     }
 }

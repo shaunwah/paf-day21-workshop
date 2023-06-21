@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class CustomerRepository {
@@ -21,11 +20,11 @@ public class CustomerRepository {
                 offset);
     }
 
-    public Optional<Customer> getCustomer(int id) {
+    public Customer getCustomer(int id) {
         try {
-            return Optional.of(template.queryForObject("select * from customers where id = ?", BeanPropertyRowMapper.newInstance(Customer.class), id));
+            return template.queryForObject("select * from customers where id = ?", BeanPropertyRowMapper.newInstance(Customer.class), id);
         } catch (Exception e) {
-            return Optional.empty();
+            return null;
         }
     }
 }

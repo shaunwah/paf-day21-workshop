@@ -5,13 +5,11 @@ import com.shaunwah.pafday21workshop.model.Order;
 import com.shaunwah.pafday21workshop.service.CustomerService;
 import com.shaunwah.pafday21workshop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api",
@@ -23,27 +21,22 @@ public class MainController {
     OrderService orderService;
 
     @GetMapping("/customers")
-    public List<Customer> getCustomers(
+    public ResponseEntity<List<Customer>> getCustomers(
             @RequestParam(defaultValue = "0") String offset,
             @RequestParam(defaultValue = "5") String limit) {
-        return customerService.getCustomers(Integer.parseInt(offset), Integer.parseInt(limit));
+        List<Customer> result = customerService.getCustomers(Integer.parseInt(offset), Integer.parseInt(limit));
+        return ResponseEntity.ofNullable(result);
     }
 
     @GetMapping("/customer/{id}")
-    public Customer getCustomer(@PathVariable String id) {
-        Optional<Customer> result = customerService.getCustomer(Integer.parseInt(id));
-        if (result.isPresent()) {
-            return result.get();
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Customer> getCustomer(@PathVariable String id) {
+        Customer result = customerService.getCustomer(Integer.parseInt(id));
+        return ResponseEntity.ofNullable(result);
     }
 
     @GetMapping("/customer/{id}/orders")
-    public List<Order> getOrdersByCustomer(@PathVariable String id) {
+    public ResponseEntity<List<Order>> getOrdersByCustomer(@PathVariable String id) {
         List<Order> result = orderService.getOrdersByCustomer(Integer.parseInt(id));
-        if (result.size() > 0) {
-            return result;
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return ResponseEntity.ofNullable(result);
     }
 }
